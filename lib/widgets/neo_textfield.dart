@@ -26,6 +26,7 @@ class NeoTextField extends StatefulWidget {
   bool? enabled;
   bool obscureText;
   double? fontSize;
+  Color? textColor;
 
   NeoTextField({
     super.key,
@@ -41,6 +42,7 @@ class NeoTextField extends StatefulWidget {
     this.sufixIcon,
     this.focusNode,
     this.hintColor,
+    this.textColor,
     this.radius,
     this.error,
     this.ontap,
@@ -67,6 +69,7 @@ class _NeoTextFieldState extends State<NeoTextField> {
       focusNode: widget.focusNode,
       textAlign: widget.align!,
       enabled: widget.enabled,
+
       onChanged: (text) {
         if (widget.onchange != null) {
           widget.onchange!(text);
@@ -83,6 +86,7 @@ class _NeoTextFieldState extends State<NeoTextField> {
       style: TextStyle(
         fontSize: widget.fontSize ?? 16,
         fontWeight: FontWeight.normal,
+        color: widget.textColor,
         fontFamily: GoogleFonts
             .poppins()
             .fontFamily,

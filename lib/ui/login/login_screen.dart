@@ -9,6 +9,7 @@ import '../../utils/strings.dart';
 import '../../widgets/neo_button.dart';
 import '../../widgets/neo_text.dart';
 import '../../widgets/neo_textfield.dart';
+import '../../widgets/themes/colors.dart';
 import 'login_controller.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -21,7 +22,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.withOpacity(0.2),
+      // backgroundColor: Colors.grey.withOpacity(0.2),
       body: GetBuilder<LoginController>(
         initState: (initState) {
           controller.loginInit();
@@ -65,19 +66,17 @@ class LoginScreen extends StatelessWidget {
   }
 
   titleText() {
-    return neoTextCommen(
-      myNeo,
-      fontsize: 30,
-      fontFamily: GoogleFonts.oleoScript().fontFamily,
-      weight: FontWeight.bold,
-    ).paddingAll(30);
+    return neoTextCommen(myNeo,
+            fontsize: 30,
+            fontFamily: GoogleFonts.oleoScript().fontFamily,
+            weight: FontWeight.bold,
+            color: bgColor)
+        .paddingAll(30);
   }
 
   description() {
-    return neoTextCommen(
-      signInToStartYourSession,
-      fontsize: 12,
-    ).paddingAll(5);
+    return neoTextCommen(signInToStartYourSession, fontsize: 12, color: bgColor)
+        .paddingAll(5);
   }
 
   emailField() {
@@ -89,7 +88,11 @@ class LoginScreen extends StatelessWidget {
       hintColor: Colors.grey.withOpacity(0.5),
       maxLines: 1,
       fontSize: 14,
-      prefixIcon: const Icon(Icons.person).paddingAll(10),
+      textColor: bgColor,
+      prefixIcon: const Icon(
+        Icons.person,
+        color: bgColor,
+      ).paddingAll(10),
     );
   }
 
@@ -100,13 +103,18 @@ class LoginScreen extends StatelessWidget {
       inputType: TextInputType.visiblePassword,
       hintColor: Colors.grey.withOpacity(0.5),
       maxLines: 1,
+      textColor: bgColor,
       error: controller.model.passwordError,
       obscureText: !controller.model.isShowPassword,
-      prefixIcon: const Icon(Icons.password_sharp).paddingAll(10),
+      prefixIcon: const Icon(
+        Icons.password_sharp,
+        color: bgColor,
+      ).paddingAll(10),
       sufixIcon: Icon(
         controller.model.isShowPassword
             ? Icons.visibility_outlined
             : Icons.visibility_off_outlined,
+        color: bgColor,
       ).paddingOnly(right: 10).onClick(() {
         controller.setShowPassword();
       }),
@@ -127,7 +135,6 @@ class LoginScreen extends StatelessWidget {
           : neoTextCommen(
               login,
               fontsize: 15.5,
-              color: Colors.white,
               weight: FontWeight.bold,
             ),
     ).paddingSymmetric(horizontal: 50);

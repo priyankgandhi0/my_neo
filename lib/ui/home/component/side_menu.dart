@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../utils/strings.dart';
 import '../../../widgets/neo_text.dart';
 import '../../../widgets/themes/colors.dart';
+import 'add_user_dialog.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -25,6 +26,8 @@ class SideMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      elevation: 0,
+     shadowColor: Colors.transparent,
       child: ListView(
         children: [
           DrawerHeader(
@@ -36,39 +39,11 @@ class SideMenu extends StatelessWidget {
             press: () {},
           ),
           DrawerListTile(
-            title: "Transaction",
-            svgSrc: "assets/icons/menu_tran.svg",
-            press: () {},
-          ),
-          DrawerListTile(
-            title: "Task",
-            svgSrc: "assets/icons/menu_task.svg",
-            press: () {},
-          ),
-          DrawerListTile(
-            title: "Documents",
-            svgSrc: "assets/icons/menu_doc.svg",
-            press: () {},
-          ),
-          DrawerListTile(
-            title: "Store",
-            svgSrc: "assets/icons/menu_store.svg",
-            press: () {},
-          ),
-          DrawerListTile(
-            title: "Notification",
-            svgSrc: "assets/icons/menu_notification.svg",
-            press: () {},
-          ),
-          DrawerListTile(
-            title: "Profile",
-            svgSrc: "assets/icons/menu_profile.svg",
-            press: () {},
-          ),
-          DrawerListTile(
-            title: "Settings",
+            title: "Logout",
             svgSrc: "assets/icons/menu_setting.svg",
-            press: () {},
+            press: () {
+              openLogoutDialog();
+            },
           ),
         ],
       ),

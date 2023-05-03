@@ -1,11 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 extension extOnWidget on Widget {
   Widget get center {
-    return Center(child: this,);
+    return Center(
+      child: this,
+    );
   }
-
 
   Widget get safeArea {
     return SafeArea(child: this);
@@ -25,7 +28,6 @@ extension extOnWidget on Widget {
     );
   }
 
-
   Widget positioned(
       {double? left, double? right, double? top, double? bottom}) {
     return Positioned(
@@ -39,7 +41,7 @@ extension extOnWidget on Widget {
 }
 
 extension extOnDynamic on dynamic {
-  get debugprint {
+  get debugPrint {
     if (kDebugMode) {
       print("--->(@) ${this.toString()}");
     }
@@ -50,5 +52,17 @@ extension extOnDynamic on dynamic {
       print(
           "--------------------------------------------------------------------------------------------->(*)");
     }
+  }
+}
+
+extension extOnString on String? {
+  bool isJson() {
+    bool status = false;
+    if ((json.decode(this!) is Map)) {
+      status = true;
+    } else if ((json.decode(this!) is List)) {
+      status = true;
+    }
+    return status;
   }
 }

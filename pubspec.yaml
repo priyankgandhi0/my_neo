@@ -44,6 +44,10 @@ dependencies:
   flutter_svg: ^2.0.5
   data_table_2: ^2.4.2
   fl_chart: ^0.36.1
+  dio: ^5.1.1
+  shared_preferences: ^2.1.0
+  package_info: ^2.0.2
+  device_info: ^2.0.3
 
 dev_dependencies:
   flutter_test:

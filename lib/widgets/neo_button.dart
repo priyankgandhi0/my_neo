@@ -50,7 +50,6 @@ class AppButton extends StatelessWidget {
                 text ?? "",
                 fontsize: 15.5,
                 color: Colors.white,
-                fontFamily: GoogleFonts.oleoScript().fontFamily,
                 weight: FontWeight.bold,
               ),
         ),

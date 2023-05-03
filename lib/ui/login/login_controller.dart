@@ -1,7 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:my_neo/storage/shared_pref.dart';
 import 'package:my_neo/widgets/extensions/cmn_ext.dart';
 
+import '../../models/auth/admin_login.dart';
+import '../../models/base_model.dart';
+import '../../network/repo/auth_repo.dart';
 import '../../utils/routes.dart';
 import '../../utils/strings.dart';
 import '../../widgets/helper/snack.dart';
@@ -9,6 +13,7 @@ import 'login_model.dart';
 
 class LoginController extends GetxController {
   var model = LoginModel();
+  var repo = AuthRepo();
 
   setShowPassword() {
     model.setShowPassword();
@@ -52,26 +57,16 @@ class LoginController extends GetxController {
           password: model.passwordController.text.toString(),
         );
         if (userCredential.user != null) {
-          showAppSnackBar(
-            loggedInSuccessFully,
-            type: SnackType.success,
-          );
+          performNetworkCall(userCredential.user?.uid,userCredential.user?.email);
+        }else{
+          someThingWentWrong.errorSnack();
         }
-        stopLoading();
-        clearText();
-        Get.toNamed(Routes.home);
       } on FirebaseAuthException catch (e) {
         stopLoading();
         if (e.code == fireBaseUserNotFound) {
-          showAppSnackBar(
-            noUserFoundForThatEmail,
-            type: SnackType.error,
-          );
+          noUserFoundForThatEmail.errorSnack();
         } else if (e.code == wrongPassWord) {
-          showAppSnackBar(
-            wrongPassword,
-            type: SnackType.error,
-          );
+          wrongPassword.errorSnack();
         }
       }
     }
@@ -85,10 +80,12 @@ class LoginController extends GetxController {
 
   startLoading() {
     model.setIsLoading(true);
+    update();
   }
 
   stopLoading() {
     model.setIsLoading(false);
+    update();
   }
 
   void loginInit() {
@@ -99,5 +96,27 @@ class LoginController extends GetxController {
         print(userIsSignedIn);
       }
     });
+  }
+
+  Future<void> performNetworkCall(String? uid, String? email) async {
+    if(uid!=null && email!=null){
+      BaseModel response = await repo.adminLogin(email: email, token: uid);
+      if(response.body!=null){
+        AdminLogin data = (response.body as AdminLogin);
+        if(data.status ?? false){
+          await preferences.saveToken(data.data?.firebaseToken ?? '');
+          loggedInSuccessFully.successSnack();
+          stopLoading();
+          clearText();
+          Get.toNamed(Routes.home);
+        }else{
+          data.msg.errorSnack();
+        }
+      }else{
+        someThingWentWrong.errorSnack();
+      }
+    }else{
+      someThingWentWrong.errorSnack();
+    }
   }
 }

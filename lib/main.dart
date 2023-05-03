@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bootstrap/flutter_bootstrap.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_neo/storage/shared_pref.dart';
 import 'package:my_neo/ui/home/home_screen.dart';
 import 'package:my_neo/ui/login/login_screen.dart';
 import 'package:my_neo/utils/routes.dart';
@@ -20,6 +21,8 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   // await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  await preferences.init();
+  await preferences.putAppDeviceInfo();
   runApp(const MyApp());
 }
 
@@ -39,8 +42,9 @@ class MyApp extends StatelessWidget {
         ),
         canvasColor: secondaryColor,
       ),
+
       getPages: Routes.pages,
-      home: HomeScreen(),
+      home: LoginScreen(),
     );
   }
 }

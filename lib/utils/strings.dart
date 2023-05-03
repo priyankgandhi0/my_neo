@@ -12,6 +12,7 @@ const userIsSignedOut = "User is currently signed out!";
 const wrongPassword = "Wrong password provided for that user.";
 const noUserFoundForThatEmail = "No user found for that email.";
 const loggedInSuccessFully = "You are LoggedIn SuccessFully";
+const someThingWentWrong = "Somthing went wrong";
 const addUser = "Add User";
 const editUser = "Edit User";
 
@@ -20,6 +21,15 @@ const enterLastName = "Enter LastName";
 const enterMobileNumber = "Enter Mobile Number";
 const enterAgeOfUser = "Enter Age";
 const enterEmailAdress = "Enter Email Address";
+
+const deleteUser = "Delete User";
+const areYouSureToDelete = "Are you sure you want to delete this user";
+
+const logout = "Log Out";
+const cancel = "Cancel";
+const areYouSureYouWantToLogout = "Are you sure you want to logout";
+
+
 
 
 ///firebase code

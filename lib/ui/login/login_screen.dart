@@ -3,14 +3,8 @@ import 'package:flutter_bootstrap/flutter_bootstrap.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:my_neo/widgets/extensions/cmn_ext.dart';
-import '../../main.dart';
-import '../../utils/strings.dart';
-import '../../widgets/neo_button.dart';
-import '../../widgets/neo_text.dart';
-import '../../widgets/neo_textfield.dart';
-import '../../widgets/themes/colors.dart';
 import 'login_controller.dart';
+import '../../../globle.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -39,8 +33,7 @@ class LoginScreen extends StatelessWidget {
                 }),
                 BootstrapCol(
                   sizes: 'col-10 col-sm-9 col-md-7 col-lg-5 col-xl-3',
-                  offsets:
-                      'offset-1 offset-sm-1 offset-md-3 offset-lg-3 offset-xl-5',
+                  offsets: 'offset-1 offset-sm-1 offset-md-3 offset-lg-3 offset-xl-5',
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
@@ -52,7 +45,7 @@ class LoginScreen extends StatelessWidget {
                         description(),
                         emailField(),
                         passwordField(),
-                        loginField(),
+                        loginButton(),
                       ],
                     ).paddingAll(20),
                   ),
@@ -121,7 +114,7 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  loginField() {
+  loginButton() {
     return AppButton(
       onPress: () {
         controller.performLogin();

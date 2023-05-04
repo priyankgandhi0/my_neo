@@ -7,7 +7,8 @@ import '../network_const.dart';
 import '../rest_client.dart';
 
 class UserRepo extends RestParent {
-  Future<BaseModel> getUserList(int page) {
+  Future<BaseModel> getUserList(int page, int currentSelectedValue,
+      String? searchText) {
     return postReqWithError<AllUserModel, ShasError>(
       endPoint: baseEndPoint,
       resModel: getAllUserFromJson,
@@ -15,9 +16,9 @@ class UserRepo extends RestParent {
       withAuth: true,
       queryParams: baseQueries("getListOfUsers"),
       data: {
-        "search_text": "",
+        "search_text": searchText,
         "page": page,
-        "limit": 5,
+        "limit": currentSelectedValue,
       },
     );
   }

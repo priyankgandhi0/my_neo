@@ -1,14 +1,11 @@
-import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_neo/models/user/get_all_user.dart';
-import 'package:my_neo/widgets/extensions/cmn_ext.dart';
-import 'package:my_neo/widgets/neo_text.dart';
-
 import '../../../utils/responsive.dart';
-import '../../../widgets/themes/colors.dart';
 import '../home_controller.dart';
 import 'add_user_dialog.dart';
+import 'delete_user_dialog.dart';
+import '../../../globle.dart';
 
 class UserDataTableSource extends StatelessWidget {
   List<UserData> userList;
@@ -18,33 +15,33 @@ class UserDataTableSource extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Responsive(
-                  mobile: userDataTable(0,0),
-                  tablet: userDataTable(30,10),
-                  desktop: userDataTable(60,20),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Responsive(
+                mobile: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: userDataTable(0, 0),
                 ),
-              )
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              pageLimitDrawer(),
-              pageCounter().paddingAll(10),
-            ],
-          ),
-        ],
-      ),
+                tablet: userDataTable(30, 10),
+                desktop: userDataTable(60, 20),
+              ),
+            )
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            typeFieldWidget(),
+            pageCounter().paddingAll(10),
+          ],
+        ),
+      ],
     );
   }
-
 
   Widget pageCounter() {
     return Container(
@@ -92,7 +89,7 @@ class UserDataTableSource extends StatelessWidget {
     );
   }
 
-  userDataTable(double columnSpacing,double spaceBetweenIcons) {
+  userDataTable(double columnSpacing, double spaceBetweenIcons) {
     return DataTable(
             columnSpacing: columnSpacing,
             border: TableBorder.all(color: Colors.white, width: 0.3),
@@ -121,7 +118,8 @@ class UserDataTableSource extends StatelessWidget {
                 label: neoTextCommen(''),
               ),
             ],
-            rows: userList.map((e) => userDataRow(e,spaceBetweenIcons)).toList())
+            rows:
+                userList.map((e) => userDataRow(e, spaceBetweenIcons)).toList())
         .paddingAll(10);
   }
 
@@ -139,12 +137,11 @@ class UserDataTableSource extends StatelessWidget {
           const Icon(Icons.edit).onClick(() {
             openAddUserDialog(data);
           }),
-           SizedBox(
+          SizedBox(
             width: spaceBetweenIcons,
           ),
           const Icon(Icons.delete).onClick(() {
             openDeleteUserDialog(data);
-
           }),
         ],
       )),
@@ -152,15 +149,59 @@ class UserDataTableSource extends StatelessWidget {
   }
 
   pageLimitDrawer() {
+    var items = ['5', '10', '20', '50'];
     return DropdownButton<String>(
       hint: neoTextCommen(""),
-      items: <String>['5', '10', '20', '50'].map((String value) {
+      selectedItemBuilder: (as) {
+        return items.map<Widget>((String item) {
+          return Center(
+            child: Text(item),
+          );
+        }).toList();
+      },
+      items: items.map((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),
         );
       }).toList(),
       onChanged: (_) {},
+    );
+  }
+
+  Widget typeFieldWidget() {
+    return Container(
+      width: 80,
+      height: 50,
+      padding: EdgeInsets.zero,
+      child: FormField<String>(
+        builder: (FormFieldState<String> state) {
+          return InputDecorator(
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(horizontal: 10),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+            ),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<int>(
+                iconEnabledColor: Colors.transparent,
+                focusColor: Colors.transparent,
+                value: controller.model.currentSelectedValue,
+                onChanged: (newValue) {
+                  controller.changeSelection(newValue);
+                },
+                items: controller.model.deviceTypes.map((int value) {
+                  return DropdownMenuItem<int>(
+                    value: value,
+                    child: Text(value.toString()),
+                  );
+                }).toList(),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

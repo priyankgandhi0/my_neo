@@ -15,7 +15,7 @@ class Routes {
     ),
     GetPage(
       name: Routes.home,
-      page: () => HomeScreen(),
+      page: () => const HomeScreen(),
       transition: Transition.fadeIn,
     ),
   ];

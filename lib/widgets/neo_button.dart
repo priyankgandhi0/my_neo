@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:my_neo/widgets/themes/colors.dart';
-import 'package:my_neo/widgets/themes/style.dart';
 
 import 'neo_text.dart';
 

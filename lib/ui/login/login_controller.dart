@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:my_neo/storage/shared_pref.dart';
 import 'package:my_neo/widgets/extensions/cmn_ext.dart';
-
 import '../../models/auth/admin_login.dart';
 import '../../models/base_model.dart';
 import '../../network/repo/auth_repo.dart';
@@ -91,9 +90,9 @@ class LoginController extends GetxController {
   void loginInit() {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user == null) {
-        print(userIsSignedOut);
+        userIsSignedOut.debugPrint;
       } else {
-        print(userIsSignedIn);
+        userIsSignedIn.debugPrint;
       }
     });
   }
@@ -105,18 +104,22 @@ class LoginController extends GetxController {
         AdminLogin data = (response.body as AdminLogin);
         if(data.status ?? false){
           await preferences.saveToken(data.data?.firebaseToken ?? '');
+          await preferences.save(key: SharedKeys.isLogin, data: true);
           loggedInSuccessFully.successSnack();
           stopLoading();
           clearText();
           Get.toNamed(Routes.home);
         }else{
           data.msg.errorSnack();
+          stopLoading();
         }
       }else{
         someThingWentWrong.errorSnack();
+        stopLoading();
       }
     }else{
       someThingWentWrong.errorSnack();
+      stopLoading();
     }
   }
 }

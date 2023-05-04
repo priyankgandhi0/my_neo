@@ -1,17 +1,20 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+
 import '../../../utils/responsive.dart';
-import '../../../widgets/themes/colors.dart';
+
 import '../home_controller.dart';
+import '../../../globle.dart';
 
 class Header extends StatelessWidget {
   Header({
     Key? key,
   }) : super(key: key);
 
-   var controller = Get.find<HomeController>();
+  var controller = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -21,49 +24,49 @@ class Header extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.menu),
             onPressed: () {
-               controller.controlMenu();
+              controller.controlMenu();
             },
           ),
         if (!Responsive.isMobile(context))
           Text(
-            "Dashboard",
+            dashBoard,
             style: Theme.of(context).textTheme.headline6,
           ),
         if (!Responsive.isMobile(context))
           Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
-        const Expanded(child: SearchField()),
+        Expanded(child: SearchField()),
       ],
     );
   }
 }
 
 class SearchField extends StatelessWidget {
-  const SearchField({
+  SearchField({
     Key? key,
   }) : super(key: key);
 
+  var controller = Get.find<HomeController>();
+  Timer? _debounce;
   @override
   Widget build(BuildContext context) {
     return TextField(
-      decoration: InputDecoration(
+      onChanged: (text){
+        if (_debounce?.isActive ?? false) _debounce!.cancel();
+        _debounce = Timer(const Duration(milliseconds: 800), () {
+          controller.searchUser();
+        });
+      },
+      controller: controller.model.userSearchController,
+      decoration:  InputDecoration(
         hintText: "Search",
         fillColor: secondaryColor,
+        suffixIcon: Icon(Icons.close).onClick((){
+          controller.clearSearch();
+        }),
         filled: true,
-        border: OutlineInputBorder(
+        border: const OutlineInputBorder(
           borderSide: BorderSide.none,
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-        ),
-        suffixIcon: InkWell(
-          onTap: () {},
-          child: Container(
-            padding: EdgeInsets.all(defaultPadding * 0.75),
-            margin: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-            decoration: BoxDecoration(
-              color: primaryColor,
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-            ),
-            child: SvgPicture.asset("assets/icons/Search.svg"),
-          ),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
       ),
     );

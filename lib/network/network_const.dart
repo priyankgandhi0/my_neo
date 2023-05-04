@@ -1,6 +1,6 @@
 import '../storage/shared_pref.dart';
 
-const baseUrl = 'http://codonnier.tech/parth/myNeo/api/';
+const baseUrl = 'https://codonnier.tech/parth/myNeo/api/';
 const baseEndPoint = "Service.php";
 
 Map<String, dynamic>? baseQueries(String s) => {
@@ -31,24 +31,13 @@ Future<Map<String, String>> requestHeader(bool passAuthToken) async {
     RequestHeaderKey.userAgent: 'MYNEO5698745parth',
     RequestHeaderKey.appSecret: 'MYNEO5698745parth',
     RequestHeaderKey.appTrackVersion: 'v1',
-    RequestHeaderKey.appDeviceType: 'iOS',
+    RequestHeaderKey.appDeviceType: 'web',
     RequestHeaderKey.appStoreVersion: '1.1',
     RequestHeaderKey.appDeviceModel: 'iPhone 8',
     RequestHeaderKey.appOsVersion: 'iOS 11',
     RequestHeaderKey.appStoreBuildNumber: '1.1',
-    if (passAuthToken)RequestHeaderKey.firebaseToken: preferences.getToken() ?? ''
-
-  };
-  return {
-    RequestHeaderKey.contentType: "application/json",
-    /*RequestHeaderKey.appSecret: "RESC5698745ravi",
-    RequestHeaderKey.appTrackVersion: "v1",
-    RequestHeaderKey.appDeviceType: preferences.getString(key: SharedKeys.APP_DEVICE_TYPE,) ?? '',
-    RequestHeaderKey.appStoreVersion: preferences.getString(key:SharedKeys.APP_STORE_VERSION) ?? '',
-    RequestHeaderKey.appDeviceModel: preferences.getString(key:SharedKeys.APP_DEVICE_MODEL) ?? '',
-    RequestHeaderKey.appOsVersion: preferences.getString(key:SharedKeys.APP_OS_VERSION) ?? '',
-    RequestHeaderKey.appStoreBuildNumber: preferences.getString(key:SharedKeys.APP_STORE_BUILD_NUMBER) ?? '',
-    if (passAuthToken)RequestHeaderKey.authToken: preferences.getToken() ?? '',*/
-    if (passAuthToken)RequestHeaderKey.authToken: preferences.getToken() ?? ''
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Credentials": "true",
+    if (passAuthToken)RequestHeaderKey.firebaseToken: preferences.getToken()
   };
 }

@@ -3,10 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../utils/strings.dart';
-import '../../../widgets/neo_text.dart';
-import '../../../widgets/themes/colors.dart';
-import 'add_user_dialog.dart';
+import 'logout_dialog.dart';
+import '../../../globle.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -34,12 +32,12 @@ class SideMenu extends StatelessWidget {
             child: titleText(),
           ),
           DrawerListTile(
-            title: "Dashboard",
+            title: dashBoard,
             svgSrc: "assets/icons/menu_dashbord.svg",
             press: () {},
           ),
           DrawerListTile(
-            title: "Logout",
+            title: logout,
             svgSrc: "assets/icons/menu_setting.svg",
             press: () {
               openLogoutDialog();
@@ -54,7 +52,6 @@ class SideMenu extends StatelessWidget {
 class DrawerListTile extends StatelessWidget {
   const DrawerListTile({
     Key? key,
-    // For selecting those three line once press "Command+D"
     required this.title,
     required this.svgSrc,
     required this.press,
@@ -73,9 +70,8 @@ class DrawerListTile extends StatelessWidget {
         color: Colors.white54,
         height: 16,
       ),
-      title: Text(
+      title: neoTextCommen(
         title,
-        style: TextStyle(color: Colors.white54),
       ),
     );
   }
